@@ -1,127 +1,154 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
-import { Button } from './ui/button'
-import { Badge } from './ui/badge'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
-import { Calendar, Clock, Users, Phone, Mail, CreditCard, Loader2, RefreshCw } from 'lucide-react'
-import { projectId, publicAnonKey } from '../utils/supabase/info'
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Badge } from './ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { Calendar, Clock, Users, Phone, Mail, CreditCard, Loader2, RefreshCw } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
+import { projectId, publicAnonKey } from '../utils/supabase/info';
 
 interface Booking {
-  id: string
-  name: string
-  phone: string
-  email: string
-  status: string
-  type: 'table' | 'event'
-  createdAt: string
-  date?: string
-  time?: string
-  guests?: number
-  specialRequests?: string
-  eventTitle?: string
-  tickets?: number
-  totalAmount?: number
-  paymentStatus?: string
-  paymentMethod?: string
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  status: string;
+  type: 'table' | 'event';
+  createdAt: string;
+  date?: string;
+  time?: string;
+  guests?: number;
+  specialRequests?: string;
+  eventTitle?: string;
+  tickets?: number;
+  totalAmount?: number;
+  paymentStatus?: string;
+  paymentMethod?: string;
 }
 
 export function BookingManagement() {
-  const [bookings, setBookings] = useState<Booking[]>([])
-  const [loading, setLoading] = useState(true)
-  const [updatingStatus, setUpdatingStatus] = useState<string[]>([])
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [updatingStatus, setUpdatingStatus] = useState<string[]>([]);
+  const [statusFilter, setStatusFilter] = useState<
+    'all' | 'pending' | 'confirmed' | 'completed' | 'cancelled'
+  >('all');
+  const [search, setSearch] = useState('');
+
+  const supabase = createClient(projectId, publicAnonKey);
 
   useEffect(() => {
-    fetchBookings()
-  }, [])
+    fetchBookings();
+  }, []);
 
   const fetchBookings = async () => {
     try {
-      const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-c85ae302/reservations`, {
-        headers: {
-          'Authorization': `Bearer ${publicAnonKey}`
-        }
-      })
+      const { data: tableBookings, error: tableError } = await supabase
+        .from('table_bookings')
+        .select('*')
+        .order('date', { ascending: true })
+        .order('time', { ascending: true });
 
-      if (response.ok) {
-        const data = await response.json()
-        setBookings(data.bookings || [])
-      }
+      if (tableError) throw tableError;
+
+      const { data: eventBookings, error: eventError } = await supabase
+        .from('event_bookings')
+        .select('*')
+        .order('createdAt', { ascending: false });
+
+      if (eventError) throw eventError;
+
+      const allBookings = [...(tableBookings || []), ...(eventBookings || [])].map((b) => ({
+        ...b,
+        type: b.date ? 'table' : 'event',
+      }));
+
+      setBookings(allBookings);
     } catch (error) {
-      console.error('Ошибка при получении бронирований:', error)
+      console.error('Ошибка при получении бронирований:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const updateBookingStatus = async (bookingId: string, newStatus: string) => {
-    setUpdatingStatus([...updatingStatus, bookingId])
-    
+  const updateBookingStatus = async (
+    bookingId: string,
+    newStatus: string,
+    type: 'table' | 'event',
+  ) => {
+    setUpdatingStatus([...updatingStatus, bookingId]);
+    const tableName = type === 'table' ? 'table_bookings' : 'event_bookings';
+
     try {
-      const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-c85ae302/reservations/${bookingId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${publicAnonKey}`
-        },
-        body: JSON.stringify({ status: newStatus })
-      })
+      const { error } = await supabase
+        .from(tableName)
+        .update({ status: newStatus })
+        .eq('id', bookingId);
 
-      if (response.ok) {
-        setBookings(bookings.map(booking => 
-          booking.id === bookingId ? { ...booking, status: newStatus } : booking
-        ))
-      }
+      if (error) throw error;
+
+      setBookings(
+        bookings.map((booking) =>
+          booking.id === bookingId ? { ...booking, status: newStatus } : booking,
+        ),
+      );
     } catch (error) {
-      console.error('Ошибка при обновлении статуса:', error)
+      console.error('Ошибка при обновлении статуса:', error);
     } finally {
-      setUpdatingStatus(updatingStatus.filter(id => id !== bookingId))
+      setUpdatingStatus(updatingStatus.filter((id) => id !== bookingId));
     }
-  }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'confirmed':
-        return 'bg-green-100 text-green-700'
+        return 'bg-green-100 text-green-700';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-700'
+        return 'bg-yellow-100 text-yellow-700';
       case 'cancelled':
-        return 'bg-red-100 text-red-700'
+        return 'bg-red-100 text-red-700';
       case 'completed':
-        return 'bg-blue-100 text-blue-700'
+        return 'bg-blue-100 text-blue-700';
       default:
-        return 'bg-gray-100 text-gray-700'
+        return 'bg-gray-100 text-gray-700';
     }
-  }
+  };
 
   const getPaymentStatusColor = (status: string) => {
     switch (status) {
       case 'paid':
-        return 'bg-green-100 text-green-700'
+        return 'bg-green-100 text-green-700';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-700'
+        return 'bg-yellow-100 text-yellow-700';
       case 'requires_payment':
-        return 'bg-orange-100 text-orange-700'
+        return 'bg-orange-100 text-orange-700';
       default:
-        return 'bg-gray-100 text-gray-700'
+        return 'bg-gray-100 text-gray-700';
     }
-  }
+  };
 
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr)
+    const date = new Date(dateStr);
     return date.toLocaleDateString('ru-RU', {
       day: 'numeric',
       month: 'short',
       year: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
-    })
-  }
+      minute: '2-digit',
+    });
+  };
 
-  const tableReservations = bookings.filter(b => b.type === 'table')
-  const eventBookings = bookings.filter(b => b.type === 'event')
+  const filtered = bookings.filter(
+    (b) =>
+      (statusFilter === 'all' || b.status === statusFilter) &&
+      b.name.toLowerCase().includes(search.toLowerCase()),
+  );
+  const tableReservations = filtered.filter((b) => b.type === 'table');
+  const eventBookings = filtered.filter((b) => b.type === 'event');
 
   if (loading) {
     return (
@@ -131,13 +158,39 @@ export function BookingManagement() {
           Загрузка бронирований...
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h3 className="text-2xl font-bold">Управление бронированиями</h3>
+      <div className="flex flex-col md:flex-row md:justify-between gap-4 items-start md:items-center">
+        <div className="flex items-center gap-4 flex-wrap">
+          <h3 className="text-2xl font-bold">Управление бронированиями</h3>
+          <Select
+            value={statusFilter}
+            onValueChange={(value: 'all' | 'pending' | 'confirmed' | 'completed' | 'cancelled') =>
+              setStatusFilter(value)
+            }
+            data-testid="booking-status-select"
+          >
+            <SelectTrigger className="w-36">
+              <SelectValue placeholder="Статус" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Все</SelectItem>
+              <SelectItem value="pending">Ожидает</SelectItem>
+              <SelectItem value="confirmed">Подтверждено</SelectItem>
+              <SelectItem value="completed">Завершено</SelectItem>
+              <SelectItem value="cancelled">Отменено</SelectItem>
+            </SelectContent>
+          </Select>
+          <Input
+            placeholder="Поиск..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-40"
+          />
+        </div>
         <Button onClick={fetchBookings} variant="outline" size="sm">
           <RefreshCw className="w-4 h-4 mr-2" />
           Обновить
@@ -146,12 +199,8 @@ export function BookingManagement() {
 
       <Tabs defaultValue="tables" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="tables">
-            Столики ({tableReservations.length})
-          </TabsTrigger>
-          <TabsTrigger value="events">
-            Мероприятия ({eventBookings.length})
-          </TabsTrigger>
+          <TabsTrigger value="tables">Столики ({tableReservations.length})</TabsTrigger>
+          <TabsTrigger value="events">Мероприятия ({eventBookings.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="tables" className="space-y-4">
@@ -163,16 +212,24 @@ export function BookingManagement() {
             </Card>
           ) : (
             tableReservations.map((booking) => (
-              <Card key={booking.id} className="border-l-4 border-l-blue-500">
+              <Card
+                key={booking.id}
+                data-testid="booking-card"
+                className="border-l-4 border-l-blue-500"
+              >
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
                       <CardTitle className="text-lg">{booking.name}</CardTitle>
                       <div className="flex gap-2 mt-2">
                         <Badge className={getStatusColor(booking.status)}>
-                          {booking.status === 'pending' ? 'Ожидает' : 
-                           booking.status === 'confirmed' ? 'Подтверждено' :
-                           booking.status === 'cancelled' ? 'Отменено' : 'Завершено'}
+                          {booking.status === 'pending'
+                            ? 'Ожидает'
+                            : booking.status === 'confirmed'
+                              ? 'Подтверждено'
+                              : booking.status === 'cancelled'
+                                ? 'Отменено'
+                                : 'Завершено'}
                         </Badge>
                       </div>
                     </div>
@@ -186,7 +243,9 @@ export function BookingManagement() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 text-sm">
                         <Calendar className="w-4 h-4 text-gray-400" />
-                        <span>{booking.date} в {booking.time}</span>
+                        <span>
+                          {booking.date} в {booking.time}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2 text-sm">
                         <Users className="w-4 h-4 text-gray-400" />
@@ -206,7 +265,9 @@ export function BookingManagement() {
                     <div>
                       {booking.specialRequests && (
                         <div>
-                          <p className="text-sm font-medium text-gray-700 mb-1">Особые пожелания:</p>
+                          <p className="text-sm font-medium text-gray-700 mb-1">
+                            Особые пожелания:
+                          </p>
                           <p className="text-sm text-gray-600 bg-gray-50 p-2 rounded">
                             {booking.specialRequests}
                           </p>
@@ -214,11 +275,11 @@ export function BookingManagement() {
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="flex gap-2">
-                    <Select 
-                      value={booking.status} 
-                      onValueChange={(value) => updateBookingStatus(booking.id, value)}
+                    <Select
+                      value={booking.status}
+                      onValueChange={(value) => updateBookingStatus(booking.id, value, 'table')}
                       disabled={updatingStatus.includes(booking.id)}
                     >
                       <SelectTrigger className="w-40">
@@ -231,7 +292,7 @@ export function BookingManagement() {
                         <SelectItem value="cancelled">Отменено</SelectItem>
                       </SelectContent>
                     </Select>
-                    
+
                     {updatingStatus.includes(booking.id) && (
                       <Loader2 className="w-4 h-4 animate-spin mt-2" />
                     )}
@@ -259,15 +320,23 @@ export function BookingManagement() {
                       <p className="text-gray-600">{booking.eventTitle}</p>
                       <div className="flex gap-2 mt-2">
                         <Badge className={getStatusColor(booking.status)}>
-                          {booking.status === 'pending' ? 'Ожидает' : 
-                           booking.status === 'confirmed' ? 'Подтверждено' :
-                           booking.status === 'cancelled' ? 'Отменено' : 'Завершено'}
+                          {booking.status === 'pending'
+                            ? 'Ожидает'
+                            : booking.status === 'confirmed'
+                              ? 'Подтверждено'
+                              : booking.status === 'cancelled'
+                                ? 'Отменено'
+                                : 'Завершено'}
                         </Badge>
                         {booking.paymentStatus && (
                           <Badge className={getPaymentStatusColor(booking.paymentStatus)}>
-                            {booking.paymentStatus === 'paid' ? 'Оплачено' :
-                             booking.paymentStatus === 'pending' ? 'Ожидает оплаты' :
-                             booking.paymentStatus === 'requires_payment' ? 'Требует оплаты' : booking.paymentStatus}
+                            {booking.paymentStatus === 'paid'
+                              ? 'Оплачено'
+                              : booking.paymentStatus === 'pending'
+                                ? 'Ожидает оплаты'
+                                : booking.paymentStatus === 'requires_payment'
+                                  ? 'Требует оплаты'
+                                  : booking.paymentStatus}
                           </Badge>
                         )}
                       </div>
@@ -301,17 +370,19 @@ export function BookingManagement() {
                         <div className="flex items-center gap-2 text-sm">
                           <CreditCard className="w-4 h-4 text-gray-400" />
                           <span>
-                            {booking.paymentMethod === 'card' ? 'Онлайн оплата' : 'Оплата при посещении'}
+                            {booking.paymentMethod === 'card'
+                              ? 'Онлайн оплата'
+                              : 'Оплата при посещении'}
                           </span>
                         </div>
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="flex gap-2">
-                    <Select 
-                      value={booking.status} 
-                      onValueChange={(value) => updateBookingStatus(booking.id, value)}
+                    <Select
+                      value={booking.status}
+                      onValueChange={(value) => updateBookingStatus(booking.id, value, 'event')}
                       disabled={updatingStatus.includes(booking.id)}
                     >
                       <SelectTrigger className="w-40">
@@ -324,7 +395,7 @@ export function BookingManagement() {
                         <SelectItem value="cancelled">Отменено</SelectItem>
                       </SelectContent>
                     </Select>
-                    
+
                     {updatingStatus.includes(booking.id) && (
                       <Loader2 className="w-4 h-4 animate-spin mt-2" />
                     )}
@@ -336,5 +407,5 @@ export function BookingManagement() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

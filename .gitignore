@@ -39,7 +39,27 @@ coverage/
 # TypeScript
 *.tsbuildinfo
 
+# Playwright
+/playwright-report/
+/test-results/
+/playwright/.cache/
+
+# Test artifacts
+*.trace
+*.zip
+
+# Build artifacts
+*.tgz
+*.tar.gz
+
 # Misc
 *.local
 *.suo
 *.sw?
+*.tmp
+*.temp
+
+# Package manager locks (optional - keep one)
+# pnpm-lock.yaml
+# package-lock.json
+# yarn.lock

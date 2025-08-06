@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import { Button } from './ui/button'
-import { ImageWithFallback } from './figma/ImageWithFallback'
-import { Star, Clock, MapPin } from 'lucide-react'
+import { Button } from './ui/button';
+import { ImageWithFallback } from './common/ImageWithFallback';
+import { Star, Clock, MapPin } from 'lucide-react';
 
 interface HeroProps {
-  setActiveSection: (section: string) => void
+  setActiveSection: (section: string) => void;
 }
 
 export function Hero({ setActiveSection }: HeroProps) {
@@ -22,7 +22,7 @@ export function Hero({ setActiveSection }: HeroProps) {
                 </span>
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed">
-                Уютное кафе в самом сердце города, где встречаются традиции и современность. 
+                Уютное кафе в самом сердце города, где встречаются традиции и современность.
                 Попробуйте наши фирменные блюда и насладитесь атмосферой домашнего уюта.
               </p>
             </div>
@@ -43,16 +43,16 @@ export function Hero({ setActiveSection }: HeroProps) {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 onClick={() => setActiveSection('menu')}
                 className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 Посмотреть меню
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
+              <Button
+                variant="outline"
+                size="lg"
                 onClick={() => setActiveSection('contact')}
                 className="border-orange-300 text-orange-600 hover:bg-orange-50 px-8 py-3 rounded-xl transition-all duration-300"
               >
@@ -77,5 +77,5 @@ export function Hero({ setActiveSection }: HeroProps) {
       <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-orange-200/50 to-transparent rounded-full blur-3xl -z-10" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-red-200/50 to-transparent rounded-full blur-3xl -z-10" />
     </section>
-  )
+  );
 }

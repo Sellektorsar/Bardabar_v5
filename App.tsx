@@ -1,34 +1,25 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Button } from "./components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "./components/ui/card";
-import { Badge } from "./components/ui/badge";
-import { Input } from "./components/ui/input";
-import { Label } from "./components/ui/label";
-import { Textarea } from "./components/ui/textarea";
+import React, { useState } from 'react';
+import { Button } from './components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
+import { Badge } from './components/ui/badge';
+import { Input } from './components/ui/input';
+import { Label } from './components/ui/label';
+import { Textarea } from './components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./components/ui/select";
-import { Switch } from "./components/ui/switch";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "./components/ui/tabs";
-import { ImageWithFallback } from "./components/figma/ImageWithFallback";
-import { Toaster } from "./components/ui/sonner";
-import { toast } from "sonner";
+} from './components/ui/select';
+import { Switch } from './components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
+import { ImageWithFallback } from './components/common/ImageWithFallback';
+import { Toaster } from './components/ui/sonner';
+import { TableBooking } from './components/TableBooking';
+import { toast } from 'sonner';
 import {
   Menu as MenuIcon,
   Star,
@@ -67,30 +58,18 @@ import {
   TrendingUp,
   Sparkles,
   Eye,
-} from "lucide-react";
+} from 'lucide-react';
 
 // Custom VK icon component
 const VKIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-  >
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M12.785 16.241s.288-.032.436-.193c.136-.148.131-.425.131-.425s-.019-1.297.582-1.488c.593-.188 1.353 1.254 2.158 1.807.611.419 1.075.327 1.075.327l2.158-.03s1.13-.07.594-.958c-.044-.072-.31-.653-1.597-1.847-1.347-1.25-1.167-.996.456-3.051.988-1.25 1.382-2.013 1.259-2.34-.117-.312-.84-.23-.84-.23l-2.432.015s-.18-.025-.313.055c-.131.079-.215.263-.215.263s-.387.103-.759 2.42c-.789 1.807-1.105 1.904-1.235 1.792-.301-.261-.226-1.05-.226-1.61 0-1.751.265-2.48-.517-2.669-.259-.063-.45-.104-1.114-.111-.85-.009-1.569.003-1.976.202-.271.133-.48.428-.353.445.157.021.513.096.701.354.243.333.234.108.234 1.689 0 .356-.064 1.74-.41 1.996-.237.175-.56-.182-1.256-1.818-.356-.913-.625-1.923-.625-1.923s-.052-.207-.145-.318c-.113-.135-.271-.178-.271-.178l-2.316.015s-.347.01-.475.16c-.113.133-.009.409-.009.409s1.816 4.249 3.869 6.38c1.88 1.95 4.014 1.823 4.014 1.823h.968z" />
   </svg>
 );
 
 // Custom Telegram icon component
-const TelegramIcon = ({
-  className,
-}: {
-  className?: string;
-}) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-  >
+const TelegramIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M12 0C5.374 0 0 5.373 0 12s5.374 12 12 12 12-5.373 12-12S18.626 0 12 0zm5.568 8.16c-.169 1.858-.896 6.728-.896 6.728-.302 1.4-1.123 1.645-2.03 1.026l-2.608-1.956-1.257 1.237c-.139.139-.256.256-.526.256l.188-2.759 4.766-4.308c.207-.184-.045-.287-.32-.103l-5.904 3.716-2.549-.827c-.555-.184-.566-.555.115-.822l9.956-3.838c.462-.154.867.106.713.83z" />
   </svg>
 );
@@ -154,63 +133,58 @@ interface GalleryImage {
   id: number;
   url: string;
   alt: string;
-  category: "interior" | "food" | "events" | "team";
+  category: 'interior' | 'food' | 'events' | 'team';
 }
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [adminTab, setAdminTab] = useState("staff");
+  const [adminTab, setAdminTab] = useState('staff');
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [menuFilter, setMenuFilter] = useState("all");
-  const [menuSearch, setMenuSearch] = useState("");
-  const [currentGalleryIndex, setCurrentGalleryIndex] =
-    useState(0);
-  const [showNewsletterModal, setShowNewsletterModal] =
-    useState(false);
-  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [menuFilter, setMenuFilter] = useState('all');
+  const [menuSearch, setMenuSearch] = useState('');
+  const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
+  const [showNewsletterModal, setShowNewsletterModal] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
 
   // Menu items state
   const [menuItems, setMenuItems] = useState<MenuItem[]>([
     {
       id: 1,
-      name: "Стейк рибай",
-      description:
-        "Сочный стейк из мраморной говядины с картофелем гриль",
-      price: "1500",
+      name: 'Стейк рибай',
+      description: 'Сочный стейк из мраморной говядины с картофелем гриль',
+      price: '1500',
       image:
-        "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      category: "Горячие блюда",
+        'https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      category: 'Горячие блюда',
       isSpecial: true,
       calories: 650,
-      allergens: ["глютен"],
+      allergens: ['глютен'],
       isVegetarian: false,
       isVegan: false,
     },
     {
       id: 2,
-      name: "Паста карбонара",
-      description:
-        "Классическая итальянская паста с беконом и пармезаном",
-      price: "890",
+      name: 'Паста карбонара',
+      description: 'Классическая итальянская паста с беконом и пармезаном',
+      price: '890',
       image:
-        "https://images.unsplash.com/photo-1621996346565-e3dbc353d292?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      category: "Горячие блюда",
+        'https://images.unsplash.com/photo-1621996346565-e3dbc353d292?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      category: 'Горячие блюда',
       isSpecial: false,
       calories: 520,
-      allergens: ["глютен", "молочные продукты"],
+      allergens: ['глютен', 'молочные продукты'],
       isVegetarian: true,
       isVegan: false,
     },
     {
       id: 3,
       name: 'Авторский коктейль "Бар-да-бар"',
-      description:
-        "Фирменный коктейль с ромом, фруктовыми соками и мятой",
-      price: "450",
+      description: 'Фирменный коктейль с ромом, фруктовыми соками и мятой',
+      price: '450',
       image:
-        "https://images.unsplash.com/photo-1536935338788-846bb9981813?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      category: "Напитки",
+        'https://images.unsplash.com/photo-1536935338788-846bb9981813?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      category: 'Напитки',
       isSpecial: true,
       calories: 180,
       allergens: [],
@@ -219,31 +193,29 @@ export default function App() {
     },
     {
       id: 4,
-      name: "Салат Цезарь",
-      description:
-        "Свежий салат с курицей гриль, пармезаном и соусом цезарь",
-      price: "650",
+      name: 'Салат Цезарь',
+      description: 'Свежий салат с курицей гриль, пармезаном и соусом цезарь',
+      price: '650',
       image:
-        "https://images.unsplash.com/photo-1512852939750-1305098529bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      category: "Салаты",
+        'https://images.unsplash.com/photo-1512852939750-1305098529bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      category: 'Салаты',
       isSpecial: false,
       calories: 380,
-      allergens: ["молочные продукты"],
+      allergens: ['молочные продукты'],
       isVegetarian: false,
       isVegan: false,
     },
     {
       id: 5,
-      name: "Тирамису",
-      description:
-        "Классический итальянский десерт с маскарпоне и кофе",
-      price: "420",
+      name: 'Тирамису',
+      description: 'Классический итальянский десерт с маскарпоне и кофе',
+      price: '420',
       image:
-        "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      category: "Десерты",
+        'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      category: 'Десерты',
       isSpecial: false,
       calories: 450,
-      allergens: ["глютен", "молочные продукты", "яйца"],
+      allergens: ['глютен', 'молочные продукты', 'яйца'],
       isVegetarian: true,
       isVegan: false,
     },
@@ -253,28 +225,27 @@ export default function App() {
   const [events, setEvents] = useState<Event[]>([
     {
       id: 1,
-      title: "Живая музыка по пятницам",
-      date: "2025-01-31",
-      time: "19:00",
+      title: 'Живая музыка по пятницам',
+      date: '2025-01-31',
+      time: '19:00',
       description:
-        "Каждую пятницу в нашем кафе выступают местные музыканты. Джаз, блюз и авторская песня в уютной атмосфере.",
+        'Каждую пятницу в нашем кафе выступают местные музыканты. Джаз, блюз и авторская песня в уютной атмосфере.',
       image:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      type: "Музыка",
-      price: "Бесплатно",
+        'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      type: 'Музыка',
+      price: 'Бесплатно',
       isFree: true,
     },
     {
       id: 2,
-      title: "Мастер-класс по приготовлению коктейлей",
-      date: "2025-02-05",
-      time: "18:00",
-      description:
-        "Научитесь готовить авторские коктейли от нашего шеф-бармена.",
+      title: 'Мастер-класс по приготовлению коктейлей',
+      date: '2025-02-05',
+      time: '18:00',
+      description: 'Научитесь готовить авторские коктейли от нашего шеф-бармена.',
       image:
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='600' viewBox='0 0 1000 600'%3E%3Crect width='1000' height='600' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='24' fill='%236b7280'%3EМастер-класс по коктейлям%3C/text%3E%3C/svg%3E",
-      type: "Мастер-класс",
-      price: "1500",
+      type: 'Мастер-класс',
+      price: '1500',
       isFree: false,
     },
   ]);
@@ -283,23 +254,21 @@ export default function App() {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
     {
       id: 1,
-      name: "Алексей Иванов",
-      position: "Шеф-повар",
-      description:
-        "Опытный шеф-повар с 15-летним стажем работы в лучших ресторанах Москвы.",
+      name: 'Алексей Иванов',
+      position: 'Шеф-повар',
+      description: 'Опытный шеф-повар с 15-летним стажем работы в лучших ресторанах Москвы.',
       image:
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f3f4f6'/%3E%3Ccircle cx='200' cy='150' r='50' fill='%23d1d5db'/%3E%3Crect x='150' y='220' width='100' height='80' rx='10' fill='%23d1d5db'/%3E%3Ctext x='50%25' y='330' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%236b7280'%3EАлексей Иванов%3C/text%3E%3C/svg%3E",
-      speciality: "Авторская кухня",
+      speciality: 'Авторская кухня',
     },
     {
       id: 2,
-      name: "Мария Петрова",
-      position: "Старший бариста",
-      description:
-        "Мастер кофейного дела, чемпион городских соревнований по латте-арт.",
+      name: 'Мария Петрова',
+      position: 'Старший бариста',
+      description: 'Мастер кофейного дела, чемпион городских соревнований по латте-арт.',
       image:
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f3f4f6'/%3E%3Ccircle cx='200' cy='150' r='50' fill='%23d1d5db'/%3E%3Crect x='150' y='220' width='100' height='80' rx='10' fill='%23d1d5db'/%3E%3Ctext x='50%25' y='330' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='%236b7280'%3EМария Петрова%3C/text%3E%3C/svg%3E",
-      speciality: "Кофейные напитки",
+      speciality: 'Кофейные напитки',
     },
   ]);
 
@@ -307,112 +276,101 @@ export default function App() {
   const [reviews] = useState<Review[]>([
     {
       id: 1,
-      name: "Анна Смирнова",
+      name: 'Анна Смирнова',
       rating: 5,
       comment:
-        "Потрясающая атмосфера и невероятно вкусная еда! Стейк рибай просто тает во рту. Обязательно вернемся!",
-      date: "2025-01-15",
+        'Потрясающая атмосфера и невероятно вкусная еда! Стейк рибай просто тает во рту. Обязательно вернемся!',
+      date: '2025-01-15',
       avatar:
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f4f6' rx='50'/%3E%3Ccircle cx='50' cy='35' r='15' fill='%23d1d5db'/%3E%3Cpath d='M25 75 Q25 60 50 60 Q75 60 75 75' fill='%23d1d5db'/%3E%3C/svg%3E",
     },
     {
       id: 2,
-      name: "Михаил Петров",
+      name: 'Михаил Петров',
       rating: 5,
       comment:
-        "Отличный сервис и уютная обстановка. Мастер-класс по коктейлям был фантастическим! Рекомендую всем.",
-      date: "2025-01-10",
+        'Отличный сервис и уютная обстановка. Мастер-класс по коктейлям был фантастическим! Рекомендую всем.',
+      date: '2025-01-10',
       avatar:
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f4f6' rx='50'/%3E%3Ccircle cx='50' cy='35' r='15' fill='%23d1d5db'/%3E%3Cpath d='M25 75 Q25 60 50 60 Q75 60 75 75' fill='%23d1d5db'/%3E%3C/svg%3E",
     },
     {
       id: 3,
-      name: "Елена Волкова",
+      name: 'Елена Волкова',
       rating: 4,
       comment:
-        "Прекрасное место для романтического ужина. Персонал очень внимательный, блюда подаются красиво оформленными.",
-      date: "2025-01-08",
+        'Прекрасное место для романтического ужина. Персонал очень внимательный, блюда подаются красиво оформленными.',
+      date: '2025-01-08',
       avatar:
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f4f6' rx='50'/%3E%3Ccircle cx='50' cy='35' r='15' fill='%23d1d5db'/%3E%3Cpath d='M25 75 Q25 60 50 60 Q75 60 75 75' fill='%23d1d5db'/%3E%3C/svg%3E",
     },
   ]);
 
   // Gallery images state
-  const [galleryImages, setGalleryImages] = useState<
-    GalleryImage[]
-  >([
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([
     {
       id: 1,
       url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='600' viewBox='0 0 1000 600'%3E%3Crect width='1000' height='600' fill='%23f3f4f6'/%3E%3Crect x='100' y='100' width='800' height='400' fill='%23e5e7eb' rx='20'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='24' fill='%236b7280'%3EИнтерьер ресторана%3C/text%3E%3C/svg%3E",
-      alt: "Интерьер ресторана",
-      category: "interior",
+      alt: 'Интерьер ресторана',
+      category: 'interior',
     },
     {
       id: 2,
       url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='600' viewBox='0 0 1000 600'%3E%3Crect width='1000' height='600' fill='%23f3f4f6'/%3E%3Cellipse cx='500' cy='300' rx='200' ry='120' fill='%23d1d5db'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='24' fill='%236b7280'%3EСтейк рибай%3C/text%3E%3C/svg%3E",
-      alt: "Стейк рибай",
-      category: "food",
+      alt: 'Стейк рибай',
+      category: 'food',
     },
     {
       id: 3,
       url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='600' viewBox='0 0 1000 600'%3E%3Crect width='1000' height='600' fill='%23f3f4f6'/%3E%3Crect x='100' y='200' width='800' height='200' fill='%23d1d5db' rx='10'/%3E%3Ccircle cx='200' cy='150' r='30' fill='%23e5e7eb'/%3E%3Ccircle cx='400' cy='150' r='30' fill='%23e5e7eb'/%3E%3Ccircle cx='600' cy='150' r='30' fill='%23e5e7eb'/%3E%3Ctext x='50%25' y='500' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='24' fill='%236b7280'%3EБарная стойка%3C/text%3E%3C/svg%3E",
-      alt: "Барная стойка",
-      category: "interior",
+      alt: 'Барная стойка',
+      category: 'interior',
     },
     {
       id: 4,
       url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='600' viewBox='0 0 1000 600'%3E%3Crect width='1000' height='600' fill='%23f3f4f6'/%3E%3Ccircle cx='300' cy='200' r='80' fill='%23d1d5db'/%3E%3Crect x='450' y='150' width='100' height='200' fill='%23d1d5db' rx='10'/%3E%3Cpath d='M600 200 L700 180 L700 220 Z' fill='%23d1d5db'/%3E%3Ctext x='50%25' y='450' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='24' fill='%236b7280'%3EЖивая музыка%3C/text%3E%3C/svg%3E",
-      alt: "Живая музыка",
-      category: "events",
+      alt: 'Живая музыка',
+      category: 'events',
     },
     {
       id: 5,
       url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='600' viewBox='0 0 1000 600'%3E%3Crect width='1000' height='600' fill='%23f3f4f6'/%3E%3Ccircle cx='500' cy='300' r='150' fill='%23e5e7eb'/%3E%3Cpath d='M400 250 Q450 200 500 250 Q550 200 600 250 Q550 300 500 250 Q450 300 400 250' fill='%23d1d5db'/%3E%3Ctext x='50%25' y='480' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='24' fill='%236b7280'%3EПаста карбонара%3C/text%3E%3C/svg%3E",
-      alt: "Паста карбонара",
-      category: "food",
+      alt: 'Паста карбонара',
+      category: 'food',
     },
     {
       id: 6,
       url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='600' viewBox='0 0 1000 600'%3E%3Crect width='1000' height='600' fill='%23f3f4f6'/%3E%3Ccircle cx='500' cy='200' r='80' fill='%23d1d5db'/%3E%3Crect x='420' y='280' width='160' height='200' rx='20' fill='%23d1d5db'/%3E%3Crect x='450' y='150' width='100' height='40' rx='20' fill='%23e5e7eb'/%3E%3Ctext x='50%25' y='520' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='24' fill='%236b7280'%3EШеф-повар за работой%3C/text%3E%3C/svg%3E",
-      alt: "Шеф-повар за работой",
-      category: "team",
+      alt: 'Шеф-повар за работой',
+      category: 'team',
     },
   ]);
 
   // Site settings state
-  const [siteSettings, setSiteSettings] =
-    useState<SiteSettings>({
-      cafeName: "Бар-да-бар",
-      phone: "+7 (495) 123-45-67",
-      email: "info@bar-da-bar.ru",
-      address: "г. Москва, ул. Центральная, 123",
-      workingHours:
-        "Пн-Чт: 09:00-23:00, Пт-Сб: 09:00-01:00, Вс: 10:00-22:00",
-      description:
-        "Уютное кафе в самом сердце города, где встречаются традиции и современность.",
-      isOpen: true,
-      acceptsReservations: true,
-    });
+  const [siteSettings, setSiteSettings] = useState<SiteSettings>({
+    cafeName: 'Бар-да-бар',
+    phone: '+7 (495) 123-45-67',
+    email: 'info@bar-da-bar.ru',
+    address: 'г. Москва, ул. Центральная, 123',
+    workingHours: 'Пн-Чт: 09:00-23:00, Пт-Сб: 09:00-01:00, Вс: 10:00-22:00',
+    description: 'Уютное кафе в самом сердце города, где встречаются традиции и современность.',
+    isOpen: true,
+    acceptsReservations: true,
+  });
 
   // Edit states
-  const [editingMenuItem, setEditingMenuItem] =
-    useState<MenuItem | null>(null);
-  const [editingEvent, setEditingEvent] =
-    useState<Event | null>(null);
-  const [editingTeamMember, setEditingTeamMember] =
-    useState<TeamMember | null>(null);
-  const [editingGalleryImage, setEditingGalleryImage] =
-    useState<GalleryImage | null>(null);
+  const [editingMenuItem, setEditingMenuItem] = useState<MenuItem | null>(null);
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+  const [editingTeamMember, setEditingTeamMember] = useState<TeamMember | null>(null);
+  const [editingGalleryImage, setEditingGalleryImage] = useState<GalleryImage | null>(null);
 
   // Form states
-  const [newMenuItem, setNewMenuItem] = useState<
-    Omit<MenuItem, "id">
-  >({
-    name: "",
-    description: "",
-    price: "",
-    image: "",
-    category: "Горячие блюда",
+  const [newMenuItem, setNewMenuItem] = useState<Omit<MenuItem, 'id'>>({
+    name: '',
+    description: '',
+    price: '',
+    image: '',
+    category: 'Горячие блюда',
     isSpecial: false,
     allergens: [],
     calories: 0,
@@ -420,65 +378,45 @@ export default function App() {
     isVegan: false,
   });
 
-  const [newEvent, setNewEvent] = useState<Omit<Event, "id">>({
-    title: "",
-    date: "",
-    time: "",
-    description: "",
-    image: "",
-    type: "Мероприятие",
-    price: "",
+  const [newEvent, setNewEvent] = useState<Omit<Event, 'id'>>({
+    title: '',
+    date: '',
+    time: '',
+    description: '',
+    image: '',
+    type: 'Мероприятие',
+    price: '',
     isFree: false,
   });
 
-  const [newTeamMember, setNewTeamMember] = useState<
-    Omit<TeamMember, "id">
-  >({
-    name: "",
-    position: "",
-    description: "",
-    image: "",
-    speciality: "",
+  const [newTeamMember, setNewTeamMember] = useState<Omit<TeamMember, 'id'>>({
+    name: '',
+    position: '',
+    description: '',
+    image: '',
+    speciality: '',
   });
 
-  const [newGalleryImage, setNewGalleryImage] = useState<
-    Omit<GalleryImage, "id">
-  >({
-    url: "",
-    alt: "",
-    category: "interior",
+  const [newGalleryImage, setNewGalleryImage] = useState<Omit<GalleryImage, 'id'>>({
+    url: '',
+    alt: '',
+    category: 'interior',
   });
 
   const navItems = [
-    { id: "home", label: "Главная" },
-    { id: "menu", label: "Меню" },
-    { id: "gallery", label: "Галерея" },
-    { id: "events", label: "Мероприятия" },
-    { id: "reviews", label: "Отзывы" },
-    { id: "about", label: "О нас" },
-    { id: "contact", label: "Контакты" },
-    { id: "admin", label: "Админ" },
+    { id: 'home', label: 'Главная' },
+    { id: 'menu', label: 'Меню' },
+    { id: 'gallery', label: 'Галерея' },
+    { id: 'events', label: 'Мероприятия' },
+    { id: 'reviews', label: 'Отзывы' },
+    { id: 'about', label: 'О нас' },
+    { id: 'contact', label: 'Контакты' },
+    { id: 'admin', label: 'Админ' },
   ];
 
-  const menuCategories = [
-    "Горячие блюда",
-    "Салаты",
-    "Напитки",
-    "Десерты",
-  ];
-  const eventTypes = [
-    "Музыка",
-    "Мастер-класс",
-    "Праздник",
-    "Кулинария",
-    "Мероприятие",
-  ];
-  const galleryCategories = [
-    "interior",
-    "food",
-    "events",
-    "team",
-  ];
+  const menuCategories = ['Горячие блюда', 'Салаты', 'Напитки', 'Десерты'];
+  const eventTypes = ['Музыка', 'Мастер-класс', 'Праздник', 'Кулинария', 'Мероприятие'];
+  const galleryCategories = ['interior', 'food', 'events', 'team'];
 
   const handleNavClick = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -487,84 +425,63 @@ export default function App() {
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle("dark");
+    document.documentElement.classList.toggle('dark');
   };
 
   const handleBooking = () => {
     toast.success(
-      "Спасибо за интерес! Свяжитесь с нами по телефону +7 (495) 123-45-67 для бронирования.",
+      'Спасибо за интерес! Свяжитесь с нами по телефону +7 (495) 123-45-67 для бронирования.',
     );
   };
 
   const handleNewsletterSubmit = () => {
     if (newsletterEmail) {
-      toast.success(
-        "Спасибо за подписку! Мы будем присылать вам новости о наших мероприятиях.",
-      );
-      setNewsletterEmail("");
+      toast.success('Спасибо за подписку! Мы будем присылать вам новости о наших мероприятиях.');
+      setNewsletterEmail('');
       setShowNewsletterModal(false);
     } else {
-      toast.error("Пожалуйста, введите email адрес");
+      toast.error('Пожалуйста, введите email адрес');
     }
   };
 
   const handleOpenMap = () => {
     const address = encodeURIComponent(siteSettings.address);
-    window.open(
-      `https://yandex.ru/maps/?text=${address}`,
-      "_blank",
-    );
+    window.open(`https://yandex.ru/maps/?text=${address}`, '_blank');
   };
 
   const filteredMenuItems = menuItems.filter((item) => {
-    const matchesFilter =
-      menuFilter === "all" || item.category === menuFilter;
+    const matchesFilter = menuFilter === 'all' || item.category === menuFilter;
     const matchesSearch =
-      item.name
-        .toLowerCase()
-        .includes(menuSearch.toLowerCase()) ||
-      item.description
-        .toLowerCase()
-        .includes(menuSearch.toLowerCase());
+      item.name.toLowerCase().includes(menuSearch.toLowerCase()) ||
+      item.description.toLowerCase().includes(menuSearch.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
   const nextGalleryImage = () => {
-    setCurrentGalleryIndex(
-      (prev) => (prev + 1) % galleryImages.length,
-    );
+    setCurrentGalleryIndex((prev) => (prev + 1) % galleryImages.length);
   };
 
   const prevGalleryImage = () => {
-    setCurrentGalleryIndex(
-      (prev) =>
-        (prev - 1 + galleryImages.length) %
-        galleryImages.length,
-    );
+    setCurrentGalleryIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
   };
 
   // Get popular content for preview section
-  const popularDishes = menuItems
-    .filter((item) => item.isSpecial)
-    .slice(0, 3);
+  const popularDishes = menuItems.filter((item) => item.isSpecial).slice(0, 3);
   const upcomingEvents = events.slice(0, 2);
   const recentReviews = reviews.slice(0, 2);
 
   // Gallery management functions
   const addGalleryImage = () => {
     if (newGalleryImage.url && newGalleryImage.alt) {
-      setGalleryImages([
-        ...galleryImages,
-        { ...newGalleryImage, id: Date.now() },
-      ]);
+      setGalleryImages([...galleryImages, { ...newGalleryImage, id: Date.now() }]);
       setNewGalleryImage({
-        url: "",
-        alt: "",
-        category: "interior",
+        url: '',
+        alt: '',
+        category: 'interior',
       });
-      toast.success("Изображение добавлено в галерею");
+      toast.success('Изображение добавлено в галерею');
     } else {
-      toast.error("Заполните URL и описание изображения");
+      toast.error('Заполните URL и описание изображения');
     }
   };
 
@@ -572,65 +489,54 @@ export default function App() {
     if (editingGalleryImage) {
       setGalleryImages(
         galleryImages.map((image) =>
-          image.id === editingGalleryImage.id
-            ? editingGalleryImage
-            : image,
+          image.id === editingGalleryImage.id ? editingGalleryImage : image,
         ),
       );
       setEditingGalleryImage(null);
-      toast.success("Изображение обновлено");
+      toast.success('Изображение обновлено');
     }
   };
 
   const deleteGalleryImage = (id: number) => {
-    setGalleryImages(
-      galleryImages.filter((image) => image.id !== id),
-    );
-    toast.success("Изображение удалено из галереи");
+    setGalleryImages(galleryImages.filter((image) => image.id !== id));
+    toast.success('Изображение удалено из галереи');
   };
 
   // Menu management functions
   const addMenuItem = () => {
     if (newMenuItem.name && newMenuItem.price) {
-      setMenuItems([
-        ...menuItems,
-        { ...newMenuItem, id: Date.now() },
-      ]);
+      setMenuItems([...menuItems, { ...newMenuItem, id: Date.now() }]);
       setNewMenuItem({
-        name: "",
-        description: "",
-        price: "",
-        image: "",
-        category: "Горячие блюда",
+        name: '',
+        description: '',
+        price: '',
+        image: '',
+        category: 'Горячие блюда',
         isSpecial: false,
         allergens: [],
         calories: 0,
         isVegetarian: false,
         isVegan: false,
       });
-      toast.success("Блюдо добавлено в меню");
+      toast.success('Блюдо добавлено в меню');
     } else {
-      toast.error("Заполните название и цену");
+      toast.error('Заполните название и цену');
     }
   };
 
   const updateMenuItem = () => {
     if (editingMenuItem) {
       setMenuItems(
-        menuItems.map((item) =>
-          item.id === editingMenuItem.id
-            ? editingMenuItem
-            : item,
-        ),
+        menuItems.map((item) => (item.id === editingMenuItem.id ? editingMenuItem : item)),
       );
       setEditingMenuItem(null);
-      toast.success("Блюдо обновлено");
+      toast.success('Блюдо обновлено');
     }
   };
 
   const deleteMenuItem = (id: number) => {
     setMenuItems(menuItems.filter((item) => item.id !== id));
-    toast.success("Блюдо удалено из меню");
+    toast.success('Блюдо удалено из меню');
   };
 
   // Events management functions
@@ -638,55 +544,48 @@ export default function App() {
     if (newEvent.title && newEvent.date && newEvent.time) {
       setEvents([...events, { ...newEvent, id: Date.now() }]);
       setNewEvent({
-        title: "",
-        date: "",
-        time: "",
-        description: "",
-        image: "",
-        type: "Мероприятие",
-        price: "",
+        title: '',
+        date: '',
+        time: '',
+        description: '',
+        image: '',
+        type: 'Мероприятие',
+        price: '',
         isFree: false,
       });
-      toast.success("Мероприятие добавлено");
+      toast.success('Мероприятие добавлено');
     } else {
-      toast.error("Заполните название, дату и время");
+      toast.error('Заполните название, дату и время');
     }
   };
 
   const updateEvent = () => {
     if (editingEvent) {
-      setEvents(
-        events.map((event) =>
-          event.id === editingEvent.id ? editingEvent : event,
-        ),
-      );
+      setEvents(events.map((event) => (event.id === editingEvent.id ? editingEvent : event)));
       setEditingEvent(null);
-      toast.success("Мероприятие обновлено");
+      toast.success('Мероприятие обновлено');
     }
   };
 
   const deleteEvent = (id: number) => {
     setEvents(events.filter((event) => event.id !== id));
-    toast.success("Мероприятие удалено");
+    toast.success('Мероприятие удалено');
   };
 
   // Team management functions
   const addTeamMember = () => {
     if (newTeamMember.name && newTeamMember.position) {
-      setTeamMembers([
-        ...teamMembers,
-        { ...newTeamMember, id: Date.now() },
-      ]);
+      setTeamMembers([...teamMembers, { ...newTeamMember, id: Date.now() }]);
       setNewTeamMember({
-        name: "",
-        position: "",
-        description: "",
-        image: "",
-        speciality: "",
+        name: '',
+        position: '',
+        description: '',
+        image: '',
+        speciality: '',
       });
-      toast.success("Сотрудник добавлен");
+      toast.success('Сотрудник добавлен');
     } else {
-      toast.error("Заполните имя и должность");
+      toast.error('Заполните имя и должность');
     }
   };
 
@@ -694,25 +593,21 @@ export default function App() {
     if (editingTeamMember) {
       setTeamMembers(
         teamMembers.map((member) =>
-          member.id === editingTeamMember.id
-            ? editingTeamMember
-            : member,
+          member.id === editingTeamMember.id ? editingTeamMember : member,
         ),
       );
       setEditingTeamMember(null);
-      toast.success("Данные сотрудника обновлены");
+      toast.success('Данные сотрудника обновлены');
     }
   };
 
   const deleteTeamMember = (id: number) => {
-    setTeamMembers(
-      teamMembers.filter((member) => member.id !== id),
-    );
-    toast.success("Сотрудник удален");
+    setTeamMembers(teamMembers.filter((member) => member.id !== id));
+    toast.success('Сотрудник удален');
   };
 
   const saveSiteSettings = () => {
-    toast.success("Настройки сайта сохранены");
+    toast.success('Настройки сайта сохранены');
   };
 
   const renderHeader = () => (
@@ -721,12 +616,10 @@ export default function App() {
         <div className="flex items-center justify-between">
           <div
             className="flex items-center space-x-2 cursor-pointer"
-            onClick={() => handleNavClick("home")}
+            onClick={() => handleNavClick('home')}
           >
             <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">
-                Б
-              </span>
+              <span className="text-white font-bold text-lg">Б</span>
             </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
               {siteSettings.cafeName}
@@ -741,8 +634,8 @@ export default function App() {
                 onClick={() => handleNavClick(item.id)}
                 className={`relative px-3 py-2 rounded-lg transition-all duration-300 ${
                   activeSection === item.id
-                    ? "text-orange-600 bg-orange-100 dark:bg-orange-900/30"
-                    : "text-gray-700 dark:text-gray-300 hover:text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20"
+                    ? 'text-orange-600 bg-orange-100 dark:bg-orange-900/30'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20'
                 }`}
               >
                 {item.label}
@@ -759,17 +652,13 @@ export default function App() {
                 onClick={toggleDarkMode}
                 className="text-gray-600 dark:text-gray-400"
               >
-                {isDarkMode ? (
-                  <Sun className="w-4 h-4" />
-                ) : (
-                  <Moon className="w-4 h-4" />
-                )}
+                {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </Button>
 
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => handleNavClick("admin")}
+                onClick={() => handleNavClick('admin')}
                 className="border-orange-300 text-orange-600 hover:bg-orange-50"
               >
                 <Settings className="w-4 h-4 mr-2" />
@@ -786,11 +675,7 @@ export default function App() {
               onClick={toggleDarkMode}
               className="text-gray-600 dark:text-gray-400"
             >
-              {isDarkMode ? (
-                <Sun className="w-4 h-4" />
-              ) : (
-                <Moon className="w-4 h-4" />
-              )}
+              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
 
             <Button
@@ -799,11 +684,7 @@ export default function App() {
               className="border-orange-300 text-orange-600"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? (
-                <X className="w-4 h-4" />
-              ) : (
-                <MenuIcon className="w-4 h-4" />
-              )}
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <MenuIcon className="w-4 h-4" />}
             </Button>
           </div>
         </div>
@@ -818,8 +699,8 @@ export default function App() {
                   onClick={() => handleNavClick(item.id)}
                   className={`text-left px-4 py-3 rounded-lg transition-all duration-300 ${
                     activeSection === item.id
-                      ? "text-orange-600 bg-orange-100 dark:bg-orange-900/30"
-                      : "text-gray-700 dark:text-gray-300 hover:text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20"
+                      ? 'text-orange-600 bg-orange-100 dark:bg-orange-900/30'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20'
                   }`}
                 >
                   {item.label}
@@ -847,8 +728,7 @@ export default function App() {
             Лучшее в нашем кафе
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Откройте для себя наши самые популярные блюда,
-            предстоящие события и мнения гостей
+            Откройте для себя наши самые популярные блюда, предстоящие события и мнения гостей
           </p>
         </div>
 
@@ -857,9 +737,7 @@ export default function App() {
           <div className="space-y-6">
             <div className="flex items-center gap-3 mb-6">
               <TrendingUp className="w-6 h-6 text-orange-600" />
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Хиты меню
-              </h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Хиты меню</h3>
             </div>
             <div className="space-y-4">
               {popularDishes.map((dish) => (
@@ -889,15 +767,11 @@ export default function App() {
                           {dish.description}
                         </p>
                         <div className="flex items-center justify-between">
-                          <span className="font-bold text-orange-600">
-                            {dish.price} ₽
-                          </span>
+                          <span className="font-bold text-orange-600">{dish.price} ₽</span>
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() =>
-                              setActiveSection("menu")
-                            }
+                            onClick={() => setActiveSection('menu')}
                             className="text-xs"
                           >
                             <Eye className="w-3 h-3 mr-1" />
@@ -913,7 +787,7 @@ export default function App() {
             <Button
               variant="outline"
               className="w-full border-orange-300 text-orange-600 hover:bg-orange-50"
-              onClick={() => setActiveSection("menu")}
+              onClick={() => setActiveSection('menu')}
             >
               Все меню
               <ChevronRight className="w-4 h-4 ml-2" />
@@ -964,9 +838,7 @@ export default function App() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-orange-600">
-                          {event.isFree
-                            ? "Бесплатно"
-                            : `${event.price} ₽`}
+                          {event.isFree ? 'Бесплатно' : `${event.price} ₽`}
                         </span>
                         <Button
                           size="sm"
@@ -984,7 +856,7 @@ export default function App() {
             <Button
               variant="outline"
               className="w-full border-orange-300 text-orange-600 hover:bg-orange-50"
-              onClick={() => setActiveSection("events")}
+              onClick={() => setActiveSection('events')}
             >
               Все мероприятия
               <ChevronRight className="w-4 h-4 ml-2" />
@@ -995,9 +867,7 @@ export default function App() {
           <div className="space-y-6">
             <div className="flex items-center gap-3 mb-6">
               <MessageCircle className="w-6 h-6 text-orange-600" />
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Свежие отзывы
-              </h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Свежие отзывы</h3>
             </div>
             <div className="space-y-4">
               {recentReviews.map((review) => (
@@ -1021,9 +891,7 @@ export default function App() {
                             <Star
                               key={i}
                               className={`w-3 h-3 ${
-                                i < review.rating
-                                  ? "text-orange-500 fill-current"
-                                  : "text-gray-300"
+                                i < review.rating ? 'text-orange-500 fill-current' : 'text-gray-300'
                               }`}
                             />
                           ))}
@@ -1043,7 +911,7 @@ export default function App() {
             <Button
               variant="outline"
               className="w-full border-orange-300 text-orange-600 hover:bg-orange-50"
-              onClick={() => setActiveSection("reviews")}
+              onClick={() => setActiveSection('reviews')}
             >
               Все отзывы
               <ChevronRight className="w-4 h-4 ml-2" />
@@ -1055,36 +923,20 @@ export default function App() {
         <div className="mt-16 pt-16 border-t border-orange-200 dark:border-gray-700">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20">
-              <div className="text-3xl font-bold text-orange-600 mb-2">
-                500+
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                Довольных гостей
-              </div>
+              <div className="text-3xl font-bold text-orange-600 mb-2">500+</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Довольных гостей</div>
             </div>
             <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20">
-              <div className="text-3xl font-bold text-orange-600 mb-2">
-                15+
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                Лет опыта
-              </div>
+              <div className="text-3xl font-bold text-orange-600 mb-2">15+</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Лет опыта</div>
             </div>
             <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20">
-              <div className="text-3xl font-bold text-orange-600 mb-2">
-                50+
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                Блюд в меню
-              </div>
+              <div className="text-3xl font-bold text-orange-600 mb-2">50+</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Блюд в меню</div>
             </div>
             <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20">
-              <div className="text-3xl font-bold text-orange-600 mb-2">
-                100+
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                Мероприятий
-              </div>
+              <div className="text-3xl font-bold text-orange-600 mb-2">100+</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Мероприятий</div>
             </div>
           </div>
         </div>
@@ -1132,7 +984,7 @@ export default function App() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   size="lg"
-                  onClick={() => setActiveSection("menu")}
+                  onClick={() => setActiveSection('menu')}
                   className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   Посмотреть меню
@@ -1140,7 +992,7 @@ export default function App() {
                 <Button
                   variant="outline"
                   size="lg"
-                  onClick={() => setActiveSection("contact")}
+                  onClick={() => setActiveSection('contact')}
                   className="border-orange-300 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20 px-8 py-3 rounded-xl transition-all duration-300"
                 >
                   Забронировать столик
@@ -1149,9 +1001,7 @@ export default function App() {
 
               {/* Social Media Links */}
               <div className="flex items-center space-x-4 pt-4">
-                <span className="text-sm text-gray-600 dark:text-gray-400">
-                  Мы в соцсетях:
-                </span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Мы в соцсетях:</span>
                 <div className="flex space-x-3">
                   <Button
                     variant="ghost"
@@ -1206,12 +1056,9 @@ export default function App() {
   const renderMenu = () => (
     <section className="container mx-auto px-4 py-16">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Наше меню
-        </h2>
+        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Наше меню</h2>
         <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Изысканные блюда, приготовленные с любовью из свежих
-          продуктов
+          Изысканные блюда, приготовленные с любовью из свежих продуктов
         </p>
       </div>
 
@@ -1230,11 +1077,9 @@ export default function App() {
         </div>
         <div className="flex gap-2 flex-wrap">
           <Button
-            variant={
-              menuFilter === "all" ? "default" : "outline"
-            }
+            variant={menuFilter === 'all' ? 'default' : 'outline'}
             size="sm"
-            onClick={() => setMenuFilter("all")}
+            onClick={() => setMenuFilter('all')}
             className="whitespace-nowrap"
           >
             Все блюда
@@ -1242,9 +1087,7 @@ export default function App() {
           {menuCategories.map((category) => (
             <Button
               key={category}
-              variant={
-                menuFilter === category ? "default" : "outline"
-              }
+              variant={menuFilter === category ? 'default' : 'outline'}
               size="sm"
               onClick={() => setMenuFilter(category)}
               className="whitespace-nowrap"
@@ -1274,22 +1117,11 @@ export default function App() {
                       Хит
                     </Badge>
                   )}
-                  {item.isVegetarian && (
-                    <Badge className="bg-green-100 text-green-700">
-                      🌱
-                    </Badge>
-                  )}
-                  {item.isVegan && (
-                    <Badge className="bg-green-200 text-green-800">
-                      🌿
-                    </Badge>
-                  )}
+                  {item.isVegetarian && <Badge className="bg-green-100 text-green-700">🌱</Badge>}
+                  {item.isVegan && <Badge className="bg-green-200 text-green-800">🌿</Badge>}
                 </div>
                 <div className="absolute top-2 right-2">
-                  <Badge
-                    variant="secondary"
-                    className="bg-white/90 text-gray-700"
-                  >
+                  <Badge variant="secondary" className="bg-white/90 text-gray-700">
                     {item.calories} ккал
                   </Badge>
                 </div>
@@ -1298,12 +1130,8 @@ export default function App() {
 
             <CardContent className="p-6">
               <div className="flex justify-between items-start mb-2">
-                <CardTitle className="text-lg text-gray-900 dark:text-white">
-                  {item.name}
-                </CardTitle>
-                <span className="text-lg font-bold text-orange-600">
-                  {item.price} ₽
-                </span>
+                <CardTitle className="text-lg text-gray-900 dark:text-white">{item.name}</CardTitle>
+                <span className="text-lg font-bold text-orange-600">{item.price} ₽</span>
               </div>
               <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
                 {item.description}
@@ -1311,7 +1139,7 @@ export default function App() {
 
               {item.allergens && item.allergens.length > 0 && (
                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                  Аллергены: {item.allergens.join(", ")}
+                  Аллергены: {item.allergens.join(', ')}
                 </div>
               )}
             </CardContent>
@@ -1322,8 +1150,7 @@ export default function App() {
       {filteredMenuItems.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-500 dark:text-gray-400">
-            Блюда не найдены. Попробуйте изменить критерии
-            поиска.
+            Блюда не найдены. Попробуйте изменить критерии поиска.
           </p>
         </div>
       )}
@@ -1334,12 +1161,9 @@ export default function App() {
           <div className="flex items-center justify-center gap-4">
             <Smartphone className="w-8 h-8 text-orange-600" />
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white">
-                Мобильное меню
-              </h3>
+              <h3 className="font-semibold text-gray-900 dark:text-white">Мобильное меню</h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Отсканируйте QR-код для просмотра меню на
-                смартфоне
+                Отсканируйте QR-код для просмотра меню на смартфоне
               </p>
             </div>
           </div>
@@ -1351,9 +1175,7 @@ export default function App() {
   const renderGallery = () => (
     <section className="container mx-auto px-4 py-16">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Галерея
-        </h2>
+        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Галерея</h2>
         <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
           Окунитесь в атмосферу нашего ресторана
         </p>
@@ -1363,8 +1185,8 @@ export default function App() {
       <div className="relative mb-8">
         <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden">
           <ImageWithFallback
-            src={galleryImages[currentGalleryIndex]?.url || ""}
-            alt={galleryImages[currentGalleryIndex]?.alt || ""}
+            src={galleryImages[currentGalleryIndex]?.url || ''}
+            alt={galleryImages[currentGalleryIndex]?.alt || ''}
             className="w-full h-full object-cover"
           />
 
@@ -1402,8 +1224,8 @@ export default function App() {
             onClick={() => setCurrentGalleryIndex(index)}
             className={`relative h-20 md:h-24 rounded-lg overflow-hidden transition-all duration-200 ${
               index === currentGalleryIndex
-                ? "ring-2 ring-orange-500 scale-105"
-                : "hover:scale-105 opacity-70 hover:opacity-100"
+                ? 'ring-2 ring-orange-500 scale-105'
+                : 'hover:scale-105 opacity-70 hover:opacity-100'
             }`}
           >
             <ImageWithFallback
@@ -1419,33 +1241,23 @@ export default function App() {
       <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
         {[
           {
-            category: "interior",
-            title: "Интерьер",
+            category: 'interior',
+            title: 'Интерьер',
             icon: Camera,
           },
-          { category: "food", title: "Блюда", icon: Utensils },
+          { category: 'food', title: 'Блюда', icon: Utensils },
           {
-            category: "events",
-            title: "Мероприятия",
+            category: 'events',
+            title: 'Мероприятия',
             icon: Calendar,
           },
-          { category: "team", title: "Команда", icon: Users },
+          { category: 'team', title: 'Команда', icon: Users },
         ].map(({ category, title, icon: Icon }) => (
-          <Card
-            key={category}
-            className="text-center p-6 hover:shadow-lg transition-shadow"
-          >
+          <Card key={category} className="text-center p-6 hover:shadow-lg transition-shadow">
             <Icon className="w-8 h-8 text-orange-600 mx-auto mb-3" />
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-              {title}
-            </h3>
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{title}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">
-              {
-                galleryImages.filter(
-                  (img) => img.category === category,
-                ).length
-              }{" "}
-              фото
+              {galleryImages.filter((img) => img.category === category).length} фото
             </p>
           </Card>
         ))}
@@ -1456,9 +1268,7 @@ export default function App() {
   const renderReviews = () => (
     <section className="container mx-auto px-4 py-16">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Отзывы гостей
-        </h2>
+        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Отзывы гостей</h2>
         <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
           Узнайте, что говорят о нас наши довольные гости
         </p>
@@ -1478,25 +1288,19 @@ export default function App() {
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 dark:text-white">
-                    {review.name}
-                  </h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{review.name}</h3>
                   <div className="flex items-center gap-1 mt-1">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
                         className={`w-4 h-4 ${
-                          i < review.rating
-                            ? "text-orange-500 fill-current"
-                            : "text-gray-300"
+                          i < review.rating ? 'text-orange-500 fill-current' : 'text-gray-300'
                         }`}
                       />
                     ))}
                   </div>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    {new Date(review.date).toLocaleDateString(
-                      "ru-RU",
-                    )}
+                    {new Date(review.date).toLocaleDateString('ru-RU')}
                   </p>
                 </div>
               </div>
@@ -1522,11 +1326,7 @@ export default function App() {
             Ваш отзыв поможет нам стать еще лучше
           </p>
           <Button
-            onClick={() =>
-              toast.success(
-                "Функция добавления отзывов скоро будет доступна!",
-              )
-            }
+            onClick={() => toast.success('Функция добавления отзывов скоро будет доступна!')}
             className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
           >
             <MessageCircle className="w-4 h-4 mr-2" />
@@ -1538,36 +1338,20 @@ export default function App() {
       {/* Stats */}
       <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
         <div className="text-center">
-          <div className="text-3xl font-bold text-orange-600">
-            4.8
-          </div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">
-            Средний рейтинг
-          </div>
+          <div className="text-3xl font-bold text-orange-600">4.8</div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">Средний рейтинг</div>
         </div>
         <div className="text-center">
-          <div className="text-3xl font-bold text-orange-600">
-            150+
-          </div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">
-            Отзывов
-          </div>
+          <div className="text-3xl font-bold text-orange-600">150+</div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">Отзывов</div>
         </div>
         <div className="text-center">
-          <div className="text-3xl font-bold text-orange-600">
-            95%
-          </div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">
-            Рекомендуют
-          </div>
+          <div className="text-3xl font-bold text-orange-600">95%</div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">Рекомендуют</div>
         </div>
         <div className="text-center">
-          <div className="text-3xl font-bold text-orange-600">
-            5★
-          </div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">
-            Большинство оценок
-          </div>
+          <div className="text-3xl font-bold text-orange-600">5★</div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">Большинство оценок</div>
         </div>
       </div>
     </section>
@@ -1583,28 +1367,22 @@ export default function App() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Подписка на новости</CardTitle>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowNewsletterModal(false)}
-              >
+              <Button variant="ghost" size="sm" onClick={() => setShowNewsletterModal(false)}>
                 <X className="w-4 h-4" />
               </Button>
             </div>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Получайте уведомления о новых мероприятиях,
-              специальных предложениях и новостях ресторана
+              Получайте уведомления о новых мероприятиях, специальных предложениях и новостях
+              ресторана
             </p>
             <div className="space-y-4">
               <Input
                 type="email"
                 placeholder="Ваш email адрес"
                 value={newsletterEmail}
-                onChange={(e) =>
-                  setNewsletterEmail(e.target.value)
-                }
+                onChange={(e) => setNewsletterEmail(e.target.value)}
               />
               <Button
                 onClick={handleNewsletterSubmit}
@@ -1622,9 +1400,7 @@ export default function App() {
   const renderEvents = () => (
     <section className="container mx-auto px-4 py-16">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Мероприятия
-        </h2>
+        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Мероприятия</h2>
         <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
           Присоединяйтесь к нашим увлекательным событиям!
         </p>
@@ -1676,9 +1452,7 @@ export default function App() {
 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
                   <div className="text-lg font-bold text-orange-600">
-                    {event.isFree
-                      ? "Бесплатно"
-                      : `${event.price} ₽`}
+                    {event.isFree ? 'Бесплатно' : `${event.price} ₽`}
                   </div>
                   <Button
                     size="sm"
@@ -1686,9 +1460,7 @@ export default function App() {
                     className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
                   >
                     <Ticket className="w-4 h-4 mr-2" />
-                    {event.isFree
-                      ? "Забронировать"
-                      : "Купить билет"}
+                    {event.isFree ? 'Забронировать' : 'Купить билет'}
                   </Button>
                 </div>
               </div>
@@ -1702,12 +1474,10 @@ export default function App() {
   const renderAbout = () => (
     <section className="container mx-auto px-4 py-16">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          О нас
-        </h2>
+        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">О нас</h2>
         <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-          "{siteSettings.cafeName}" — это не просто кафе, это
-          место, где встречаются традиции и современность.
+          "{siteSettings.cafeName}" — это не просто кафе, это место, где встречаются традиции и
+          современность.
         </p>
       </div>
 
@@ -1751,12 +1521,9 @@ export default function App() {
   const renderContact = () => (
     <section className="container mx-auto px-4 py-16">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Контакты
-        </h2>
+        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Контакты</h2>
         <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Свяжитесь с нами для бронирования столика или по любым
-          вопросам
+          Свяжитесь с нами для бронирования столика или по любым вопросам
         </p>
       </div>
 
@@ -1775,8 +1542,7 @@ export default function App() {
                 <br />
                 Район: Центральный
                 <br />
-                Ближайшее метро: Площадь Революции (5 мин
-                пешком)
+                Ближайшее метро: Площадь Революции (5 мин пешком)
               </p>
             </CardContent>
           </Card>
@@ -1821,9 +1587,7 @@ export default function App() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600 dark:text-gray-300">
-                {siteSettings.workingHours}
-              </p>
+              <p className="text-gray-600 dark:text-gray-300">{siteSettings.workingHours}</p>
             </CardContent>
           </Card>
 
@@ -1836,19 +1600,11 @@ export default function App() {
             </CardHeader>
             <CardContent>
               <div className="flex space-x-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2"
-                >
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
                   <VKIcon className="w-4 h-4" />
                   VKontakte
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-2"
-                >
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
                   <TelegramIcon className="w-4 h-4" />
                   Telegram
                 </Button>
@@ -1910,13 +1666,8 @@ export default function App() {
                 </Button>
                 <Button
                   onClick={() => {
-                    const address = encodeURIComponent(
-                      siteSettings.address,
-                    );
-                    window.open(
-                      `https://maps.google.com/maps?q=${address}`,
-                      "_blank",
-                    );
+                    const address = encodeURIComponent(siteSettings.address);
+                    window.open(`https://maps.google.com/maps?q=${address}`, '_blank');
                   }}
                   variant="outline"
                   size="sm"
@@ -1930,43 +1681,7 @@ export default function App() {
           </Card>
 
           {/* Booking Form */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-center">
-                Бронирование столика
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4 text-center">
-                <p className="text-gray-600 dark:text-gray-300">
-                  Для бронирования столика свяжитесь с нами по
-                  телефону или напишите на email.
-                </p>
-                <div className="flex flex-col space-y-2">
-                  <Button
-                    onClick={handleBooking}
-                    className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
-                  >
-                    <Phone className="w-4 h-4 mr-2" />
-                    Позвонить
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      window.open(
-                        `mailto:${siteSettings.email}`,
-                        "_blank",
-                      )
-                    }
-                    className="border-orange-300 text-orange-600 hover:bg-orange-50"
-                  >
-                    <Mail className="w-4 h-4 mr-2" />
-                    Написать на email
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <TableBooking />
         </div>
       </div>
     </section>
@@ -1975,53 +1690,31 @@ export default function App() {
   const renderAdmin = () => (
     <section className="container mx-auto px-4 py-16">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Админ-панель
-        </h2>
+        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Админ-панель</h2>
         <p className="text-xl text-gray-600 dark:text-gray-300">
-          Управление контентом сайта кафе "
-          {siteSettings.cafeName}"
+          Управление контентом сайта кафе "{siteSettings.cafeName}"
         </p>
       </div>
 
-      <Tabs
-        value={adminTab}
-        onValueChange={setAdminTab}
-        className="w-full"
-      >
+      <Tabs value={adminTab} onValueChange={setAdminTab} className="w-full">
         <TabsList className="grid w-full grid-cols-5 mb-8">
-          <TabsTrigger
-            value="staff"
-            className="flex items-center gap-2"
-          >
+          <TabsTrigger value="staff" className="flex items-center gap-2">
             <Users className="w-4 h-4" />
             Персонал
           </TabsTrigger>
-          <TabsTrigger
-            value="menu"
-            className="flex items-center gap-2"
-          >
+          <TabsTrigger value="menu" className="flex items-center gap-2">
             <Utensils className="w-4 h-4" />
             Меню
           </TabsTrigger>
-          <TabsTrigger
-            value="gallery"
-            className="flex items-center gap-2"
-          >
+          <TabsTrigger value="gallery" className="flex items-center gap-2">
             <ImageIcon className="w-4 h-4" />
             Галерея
           </TabsTrigger>
-          <TabsTrigger
-            value="events"
-            className="flex items-center gap-2"
-          >
+          <TabsTrigger value="events" className="flex items-center gap-2">
             <Calendar className="w-4 h-4" />
             События
           </TabsTrigger>
-          <TabsTrigger
-            value="settings"
-            className="flex items-center gap-2"
-          >
+          <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings className="w-4 h-4" />
             Настройки
           </TabsTrigger>
@@ -2053,9 +1746,7 @@ export default function App() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="staff-position">
-                    Должность
-                  </Label>
+                  <Label htmlFor="staff-position">Должность</Label>
                   <Input
                     id="staff-position"
                     value={newTeamMember.position}
@@ -2070,9 +1761,7 @@ export default function App() {
                 </div>
               </div>
               <div>
-                <Label htmlFor="staff-speciality">
-                  Специализация
-                </Label>
+                <Label htmlFor="staff-speciality">Специализация</Label>
                 <Input
                   id="staff-speciality"
                   value={newTeamMember.speciality}
@@ -2086,9 +1775,7 @@ export default function App() {
                 />
               </div>
               <div>
-                <Label htmlFor="staff-image">
-                  URL изображения
-                </Label>
+                <Label htmlFor="staff-image">URL изображения</Label>
                 <Input
                   id="staff-image"
                   value={newTeamMember.image}
@@ -2102,9 +1789,7 @@ export default function App() {
                 />
               </div>
               <div>
-                <Label htmlFor="staff-description">
-                  Описание
-                </Label>
+                <Label htmlFor="staff-description">Описание</Label>
                 <Textarea
                   id="staff-description"
                   value={newTeamMember.description}
@@ -2118,10 +1803,7 @@ export default function App() {
                   rows={3}
                 />
               </div>
-              <Button
-                onClick={addTeamMember}
-                className="w-full"
-              >
+              <Button onClick={addTeamMember} className="w-full">
                 Добавить сотрудника
               </Button>
             </CardContent>
@@ -2139,38 +1821,27 @@ export default function App() {
                 >
                   <div className="flex items-center gap-4">
                     <img
-                      src={
-                        member.image ||
-                        "https://via.placeholder.com/60"
-                      }
+                      src={member.image || 'https://via.placeholder.com/60'}
                       alt={member.name}
                       className="w-12 h-12 rounded-full object-cover"
                     />
                     <div>
-                      <h3 className="font-medium">
-                        {member.name}
-                      </h3>
-                      <Badge variant="secondary">
-                        {member.position}
-                      </Badge>
+                      <h3 className="font-medium">{member.name}</h3>
+                      <Badge variant="secondary">{member.position}</Badge>
                     </div>
                   </div>
                   <div className="flex gap-2">
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() =>
-                        setEditingTeamMember(member)
-                      }
+                      onClick={() => setEditingTeamMember(member)}
                     >
                       <Edit className="w-4 h-4" />
                     </Button>
                     <Button
                       variant="destructive"
                       size="sm"
-                      onClick={() =>
-                        deleteTeamMember(member.id)
-                      }
+                      onClick={() => deleteTeamMember(member.id)}
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -2250,13 +1921,8 @@ export default function App() {
                   />
                 </div>
                 <div className="flex gap-2">
-                  <Button onClick={updateTeamMember}>
-                    Сохранить изменения
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setEditingTeamMember(null)}
-                  >
+                  <Button onClick={updateTeamMember}>Сохранить изменения</Button>
+                  <Button variant="outline" onClick={() => setEditingTeamMember(null)}>
                     Отмена
                   </Button>
                 </div>
@@ -2331,9 +1997,7 @@ export default function App() {
                 <div>
                   <Label>Калории</Label>
                   <Input
-                    value={
-                      newMenuItem.calories?.toString() || ""
-                    }
+                    value={newMenuItem.calories?.toString() || ''}
                     onChange={(e) =>
                       setNewMenuItem({
                         ...newMenuItem,
@@ -2347,15 +2011,11 @@ export default function App() {
                 <div>
                   <Label>Аллергены (через запятую)</Label>
                   <Input
-                    value={
-                      newMenuItem.allergens?.join(", ") || ""
-                    }
+                    value={newMenuItem.allergens?.join(', ') || ''}
                     onChange={(e) =>
                       setNewMenuItem({
                         ...newMenuItem,
-                        allergens: e.target.value
-                          .split(", ")
-                          .filter(Boolean),
+                        allergens: e.target.value.split(', ').filter(Boolean),
                       })
                     }
                     placeholder="глютен, молочные продукты"
@@ -2401,9 +2061,7 @@ export default function App() {
                       })
                     }
                   />
-                  <Label htmlFor="special">
-                    Специальное предложение
-                  </Label>
+                  <Label htmlFor="special">Специальное предложение</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Switch
@@ -2416,9 +2074,7 @@ export default function App() {
                       })
                     }
                   />
-                  <Label htmlFor="vegetarian">
-                    Вегетарианское
-                  </Label>
+                  <Label htmlFor="vegetarian">Вегетарианское</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Switch
@@ -2452,51 +2108,28 @@ export default function App() {
                 >
                   <div className="flex items-center gap-4">
                     <img
-                      src={
-                        item.image ||
-                        "https://via.placeholder.com/60"
-                      }
+                      src={item.image || 'https://via.placeholder.com/60'}
                       alt={item.name}
                       className="w-12 h-12 rounded object-cover"
                     />
                     <div>
-                      <h3 className="font-medium">
-                        {item.name}
-                      </h3>
+                      <h3 className="font-medium">{item.name}</h3>
                       <div className="flex gap-2 flex-wrap">
-                        <Badge variant="secondary">
-                          {item.category}
-                        </Badge>
-                        <Badge variant="outline">
-                          {item.price} ₽
-                        </Badge>
+                        <Badge variant="secondary">{item.category}</Badge>
+                        <Badge variant="outline">{item.price} ₽</Badge>
                         {item.isSpecial && <Badge>Хит</Badge>}
                         {item.isVegetarian && (
-                          <Badge className="bg-green-100 text-green-700">
-                            🌱
-                          </Badge>
+                          <Badge className="bg-green-100 text-green-700">🌱</Badge>
                         )}
-                        {item.isVegan && (
-                          <Badge className="bg-green-200 text-green-800">
-                            🌿
-                          </Badge>
-                        )}
+                        {item.isVegan && <Badge className="bg-green-200 text-green-800">🌿</Badge>}
                       </div>
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setEditingMenuItem(item)}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => setEditingMenuItem(item)}>
                       <Edit className="w-4 h-4" />
                     </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => deleteMenuItem(item.id)}
-                    >
+                    <Button variant="destructive" size="sm" onClick={() => deleteMenuItem(item.id)}>
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
@@ -2565,15 +2198,11 @@ export default function App() {
                   <div>
                     <Label>Калории</Label>
                     <Input
-                      value={
-                        editingMenuItem.calories?.toString() ||
-                        ""
-                      }
+                      value={editingMenuItem.calories?.toString() || ''}
                       onChange={(e) =>
                         setEditingMenuItem({
                           ...editingMenuItem,
-                          calories:
-                            parseInt(e.target.value) || 0,
+                          calories: parseInt(e.target.value) || 0,
                         })
                       }
                       type="number"
@@ -2582,16 +2211,11 @@ export default function App() {
                   <div>
                     <Label>Аллергены (через запятую)</Label>
                     <Input
-                      value={
-                        editingMenuItem.allergens?.join(", ") ||
-                        ""
-                      }
+                      value={editingMenuItem.allergens?.join(', ') || ''}
                       onChange={(e) =>
                         setEditingMenuItem({
                           ...editingMenuItem,
-                          allergens: e.target.value
-                            .split(", ")
-                            .filter(Boolean),
+                          allergens: e.target.value.split(', ').filter(Boolean),
                         })
                       }
                     />
@@ -2634,9 +2258,7 @@ export default function App() {
                         })
                       }
                     />
-                    <Label htmlFor="special-edit">
-                      Специальное предложение
-                    </Label>
+                    <Label htmlFor="special-edit">Специальное предложение</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Switch
@@ -2649,9 +2271,7 @@ export default function App() {
                         })
                       }
                     />
-                    <Label htmlFor="vegetarian-edit">
-                      Вегетарианское
-                    </Label>
+                    <Label htmlFor="vegetarian-edit">Вегетарианское</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Switch
@@ -2664,19 +2284,12 @@ export default function App() {
                         })
                       }
                     />
-                    <Label htmlFor="vegan-edit">
-                      Веганское
-                    </Label>
+                    <Label htmlFor="vegan-edit">Веганское</Label>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button onClick={updateMenuItem}>
-                    Сохранить изменения
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setEditingMenuItem(null)}
-                  >
+                  <Button onClick={updateMenuItem}>Сохранить изменения</Button>
+                  <Button variant="outline" onClick={() => setEditingMenuItem(null)}>
                     Отмена
                   </Button>
                 </div>
@@ -2724,18 +2337,10 @@ export default function App() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="interior">
-                        Интерьер
-                      </SelectItem>
-                      <SelectItem value="food">
-                        Блюда
-                      </SelectItem>
-                      <SelectItem value="events">
-                        Мероприятия
-                      </SelectItem>
-                      <SelectItem value="team">
-                        Команда
-                      </SelectItem>
+                      <SelectItem value="interior">Интерьер</SelectItem>
+                      <SelectItem value="food">Блюда</SelectItem>
+                      <SelectItem value="events">Мероприятия</SelectItem>
+                      <SelectItem value="team">Команда</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -2753,10 +2358,7 @@ export default function App() {
                   placeholder="Краткое описание изображения"
                 />
               </div>
-              <Button
-                onClick={addGalleryImage}
-                className="w-full"
-              >
+              <Button onClick={addGalleryImage} className="w-full">
                 Добавить изображение
               </Button>
             </CardContent>
@@ -2769,10 +2371,7 @@ export default function App() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {galleryImages.map((image) => (
-                  <div
-                    key={image.id}
-                    className="relative group"
-                  >
+                  <div key={image.id} className="relative group">
                     <img
                       src={image.url}
                       alt={image.alt}
@@ -2783,9 +2382,7 @@ export default function App() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() =>
-                            setEditingGalleryImage(image)
-                          }
+                          onClick={() => setEditingGalleryImage(image)}
                           className="bg-white text-black hover:bg-gray-100"
                         >
                           <Edit className="w-4 h-4" />
@@ -2793,29 +2390,22 @@ export default function App() {
                         <Button
                           variant="destructive"
                           size="sm"
-                          onClick={() =>
-                            deleteGalleryImage(image.id)
-                          }
+                          onClick={() => deleteGalleryImage(image.id)}
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
                     <div className="mt-2">
-                      <p className="text-sm font-medium">
-                        {image.alt}
-                      </p>
-                      <Badge
-                        variant="secondary"
-                        className="text-xs"
-                      >
-                        {image.category === "interior"
-                          ? "Интерьер"
-                          : image.category === "food"
-                            ? "Блюда"
-                            : image.category === "events"
-                              ? "Мероприятия"
-                              : "Команда"}
+                      <p className="text-sm font-medium">{image.alt}</p>
+                      <Badge variant="secondary" className="text-xs">
+                        {image.category === 'interior'
+                          ? 'Интерьер'
+                          : image.category === 'food'
+                            ? 'Блюда'
+                            : image.category === 'events'
+                              ? 'Мероприятия'
+                              : 'Команда'}
                       </Badge>
                     </div>
                   </div>
@@ -2858,18 +2448,10 @@ export default function App() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="interior">
-                          Интерьер
-                        </SelectItem>
-                        <SelectItem value="food">
-                          Блюда
-                        </SelectItem>
-                        <SelectItem value="events">
-                          Мероприятия
-                        </SelectItem>
-                        <SelectItem value="team">
-                          Команда
-                        </SelectItem>
+                        <SelectItem value="interior">Интерьер</SelectItem>
+                        <SelectItem value="food">Блюда</SelectItem>
+                        <SelectItem value="events">Мероприятия</SelectItem>
+                        <SelectItem value="team">Команда</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -2887,13 +2469,8 @@ export default function App() {
                   />
                 </div>
                 <div className="flex gap-2">
-                  <Button onClick={updateGalleryImage}>
-                    Сохранить изменения
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setEditingGalleryImage(null)}
-                  >
+                  <Button onClick={updateGalleryImage}>Сохранить изменения</Button>
+                  <Button variant="outline" onClick={() => setEditingGalleryImage(null)}>
                     Отмена
                   </Button>
                 </div>
@@ -2930,9 +2507,7 @@ export default function App() {
                   <Label>Тип</Label>
                   <Select
                     value={newEvent.type}
-                    onValueChange={(value) =>
-                      setNewEvent({ ...newEvent, type: value })
-                    }
+                    onValueChange={(value) => setNewEvent({ ...newEvent, type: value })}
                   >
                     <SelectTrigger>
                       <SelectValue />
@@ -3011,13 +2586,11 @@ export default function App() {
                       setNewEvent({
                         ...newEvent,
                         isFree: checked,
-                        price: checked ? "Бесплатно" : "",
+                        price: checked ? 'Бесплатно' : '',
                       })
                     }
                   />
-                  <Label htmlFor="free-event">
-                    Бесплатное мероприятие
-                  </Label>
+                  <Label htmlFor="free-event">Бесплатное мероприятие</Label>
                 </div>
                 {!newEvent.isFree && (
                   <div>
@@ -3054,45 +2627,28 @@ export default function App() {
                 >
                   <div className="flex items-center gap-4">
                     <img
-                      src={
-                        event.image ||
-                        "https://via.placeholder.com/60"
-                      }
+                      src={event.image || 'https://via.placeholder.com/60'}
                       alt={event.title}
                       className="w-12 h-12 rounded object-cover"
                     />
                     <div>
-                      <h3 className="font-medium">
-                        {event.title}
-                      </h3>
+                      <h3 className="font-medium">{event.title}</h3>
                       <div className="flex gap-2">
-                        <Badge variant="secondary">
-                          {event.type}
-                        </Badge>
+                        <Badge variant="secondary">{event.type}</Badge>
                         <Badge variant="outline">
                           {event.date} {event.time}
                         </Badge>
                         {event.isFree && (
-                          <Badge className="bg-green-100 text-green-700">
-                            Бесплатно
-                          </Badge>
+                          <Badge className="bg-green-100 text-green-700">Бесплатно</Badge>
                         )}
                       </div>
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setEditingEvent(event)}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => setEditingEvent(event)}>
                       <Edit className="w-4 h-4" />
                     </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => deleteEvent(event.id)}
-                    >
+                    <Button variant="destructive" size="sm" onClick={() => deleteEvent(event.id)}>
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
@@ -3206,13 +2762,11 @@ export default function App() {
                         setEditingEvent({
                           ...editingEvent,
                           isFree: checked,
-                          price: checked ? "Бесплатно" : "",
+                          price: checked ? 'Бесплатно' : '',
                         })
                       }
                     />
-                    <Label htmlFor="free-event-edit">
-                      Бесплатное мероприятие
-                    </Label>
+                    <Label htmlFor="free-event-edit">Бесплатное мероприятие</Label>
                   </div>
                   {!editingEvent.isFree && (
                     <div>
@@ -3231,13 +2785,8 @@ export default function App() {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <Button onClick={updateEvent}>
-                    Сохранить изменения
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setEditingEvent(null)}
-                  >
+                  <Button onClick={updateEvent}>Сохранить изменения</Button>
+                  <Button variant="outline" onClick={() => setEditingEvent(null)}>
                     Отмена
                   </Button>
                 </div>
@@ -3342,9 +2891,7 @@ export default function App() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label>Кафе открыто</Label>
-                    <p className="text-sm text-gray-500">
-                      Отображать статус "Открыто" на сайте
-                    </p>
+                    <p className="text-sm text-gray-500">Отображать статус "Открыто" на сайте</p>
                   </div>
                   <Switch
                     checked={siteSettings.isOpen}
@@ -3361,8 +2908,7 @@ export default function App() {
                   <div>
                     <Label>Принимать бронирования</Label>
                     <p className="text-sm text-gray-500">
-                      Разрешить пользователям бронировать
-                      столики
+                      Разрешить пользователям бронировать столики
                     </p>
                   </div>
                   <Switch
@@ -3377,10 +2923,7 @@ export default function App() {
                 </div>
               </div>
 
-              <Button
-                onClick={saveSiteSettings}
-                className="w-full"
-              >
+              <Button onClick={saveSiteSettings} className="w-full">
                 <Save className="w-4 h-4 mr-2" />
                 Сохранить настройки
               </Button>
@@ -3393,21 +2936,21 @@ export default function App() {
 
   const renderSection = () => {
     switch (activeSection) {
-      case "home":
+      case 'home':
         return renderHero();
-      case "menu":
+      case 'menu':
         return renderMenu();
-      case "gallery":
+      case 'gallery':
         return renderGallery();
-      case "events":
+      case 'events':
         return renderEvents();
-      case "reviews":
+      case 'reviews':
         return renderReviews();
-      case "about":
+      case 'about':
         return renderAbout();
-      case "contact":
+      case 'contact':
         return renderContact();
-      case "admin":
+      case 'admin':
         return renderAdmin();
       default:
         return renderHero();
@@ -3419,9 +2962,7 @@ export default function App() {
       className={`min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300`}
     >
       {renderHeader()}
-      <main className="transition-all duration-500 ease-in-out">
-        {renderSection()}
-      </main>
+      <main className="transition-all duration-500 ease-in-out">{renderSection()}</main>
       <NewsletterModal />
       <Toaster />
     </div>

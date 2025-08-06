@@ -1,0 +1,33 @@
+name: Supabase Migrations
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'supabase/migrations/**'
+
+jobs:
+  migrations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Supabase CLI
+        run: pnpm dlx --package supabase@1 supabase --help
+
+      - name: Apply migrations to Supabase
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+        run: pnpm dlx supabase@1 db push --project-ref $PROJECT_ID --access-token $ACCESS_TOKEN --workspace supabase

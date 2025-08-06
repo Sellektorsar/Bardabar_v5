@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ESNext"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "npm:hono/jsx",
+    "paths": {
+      "npm:*": ["https://deno.land/x/hono/npm/*"],
+      "jsr:*": ["https://deno.land/x/hono/jsr/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
+}
